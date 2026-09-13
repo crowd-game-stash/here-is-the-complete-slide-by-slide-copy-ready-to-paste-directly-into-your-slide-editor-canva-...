@@ -133,6 +133,7 @@ function Visual({ index }: { index: number }) {
 
 function Slide({ index }: { index: number }) {
   const slide = slides[index];
+  if (!slide) return null;
   return (
     <article className="slide-content slide-enter flex flex-col px-[108px] py-[82px]" aria-label={`Slide ${index + 1}: ${slide.title}`}>
       <header className="flex items-center justify-between border-b border-border pb-7">
@@ -184,7 +185,8 @@ function Presentation() {
   const go = useCallback((next: number) => setCurrent(Math.min(Math.max(next, 0), slides.length - 1)), []);
   useEffect(() => {
     const url = new URL(window.location.href); url.searchParams.set("slide", String(current + 1)); window.history.replaceState({}, "", url);
-    document.title = `${current + 1}/${slides.length} — ${slides[current].title}`;
+    const activeSlide = slides[current];
+    if (activeSlide) document.title = `${current + 1}/${slides.length} — ${activeSlide.title}`;
   }, [current]);
   useEffect(() => {
     const keys = (event: KeyboardEvent) => {
@@ -212,10 +214,10 @@ function Presentation() {
       <section className="min-h-0 flex-1 p-3 md:p-6"><div className="h-full overflow-hidden border border-border bg-stage shadow-2xl"><ScaledSlide index={current}/></div></section>
       <footer className="print-hide flex h-20 shrink-0 items-center justify-between px-4 md:px-6">
         <Button variant="deck" size="deckIcon" aria-label="Previous slide" disabled={current === 0} onClick={() => go(current - 1)}><ArrowLeft /></Button>
-        <div className="flex items-center gap-4"><span className="font-mono text-xs text-muted-foreground">{String(current + 1).padStart(2,"0")}</span><div className="flex gap-2">{slides.map((_,i) => <button key={i} aria-label={`Go to slide ${i+1}`} onClick={() => go(i)} className={`h-1.5 rounded-full transition-all ${i === current ? "w-10 bg-primary" : "w-4 bg-border"}`} />)}</div><span className="font-mono text-xs text-muted-foreground">06</span></div>
+        <div className="flex items-center gap-4"><span className="font-mono text-xs text-muted-foreground">{String(current + 1).padStart(2,"0")}</span><div className="flex gap-1">{slides.map((_,i) => <Button variant="ghost" size="icon" key={i} aria-label={`Go to slide ${i+1}`} onClick={() => go(i)} className="h-7 w-auto px-1.5"><span className={`block h-1.5 rounded-full transition-all ${i === current ? "w-10 bg-primary" : "w-4 bg-border"}`} /></Button>)}</div><span className="font-mono text-xs text-muted-foreground">06</span></div>
         <Button variant="deckPrimary" size="deckIcon" aria-label="Next slide" disabled={current === slides.length - 1} onClick={() => go(current + 1)}><ArrowRight /></Button>
       </footer>
-      {overview && <div className="fixed inset-0 z-50 overflow-y-auto bg-background/95 p-6 backdrop-blur-md"><div className="mx-auto max-w-7xl"><div className="mb-6 flex items-center justify-between"><h2 className="font-display text-2xl font-semibold">All slides</h2><Button variant="deck" size="icon" aria-label="Close overview" onClick={() => setOverview(false)}><X /></Button></div><div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">{slides.map((slide,i) => <button key={slide.title} onClick={() => {go(i);setOverview(false)}} className="group overflow-hidden border border-border bg-card text-left shadow-sm transition hover:-translate-y-1 hover:shadow-xl"><div className="aspect-video bg-stage p-7"><div className="font-mono text-xs text-muted-foreground">0{i+1} · {slide.tag}</div><div className="mt-8 font-display text-2xl font-semibold leading-tight">{slide.title}</div><div className="mt-8 h-1 w-16 bg-signal" /></div></button>)}</div></div></div>}
+      {overview && <div className="fixed inset-0 z-50 overflow-y-auto bg-background/95 p-6 backdrop-blur-md"><div className="mx-auto max-w-7xl"><div className="mb-6 flex items-center justify-between"><h2 className="font-display text-2xl font-semibold">All slides</h2><Button variant="deck" size="icon" aria-label="Close overview" onClick={() => setOverview(false)}><X /></Button></div><div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">{slides.map((slide,i) => <Button variant="ghost" key={slide.title} onClick={() => {go(i);setOverview(false)}} className="group block h-auto overflow-hidden rounded-none border border-border bg-card p-0 text-left shadow-sm transition hover:-translate-y-1 hover:bg-card hover:shadow-xl"><div className="aspect-video bg-stage p-7"><div className="font-mono text-xs text-muted-foreground">0{i+1} · {slide.tag}</div><div className="mt-8 whitespace-normal font-display text-2xl font-semibold leading-tight">{slide.title}</div><div className="mt-8 h-1 w-16 bg-signal" /></div></Button>)}</div></div></div>}
     </main>
   );
 }
