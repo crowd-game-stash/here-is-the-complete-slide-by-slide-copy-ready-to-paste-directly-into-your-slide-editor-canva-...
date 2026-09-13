@@ -175,7 +175,7 @@ function ScaledSlide({ index }: { index: number }) {
     observer.observe(host);
     return () => observer.disconnect();
   }, []);
-  return <div ref={hostRef} className="relative h-full w-full overflow-hidden"><div className="absolute left-1/2 top-1/2 h-[1080px] w-[1920px] -translate-x-1/2 -translate-y-1/2" style={{ transform: `translate(-50%, -50%) scale(${scale})`, transformOrigin: "center" }}><Slide index={index}/></div></div>;
+  return <div ref={hostRef} className="relative h-full w-full overflow-hidden"><div className="absolute left-1/2 top-1/2 -ml-[960px] -mt-[540px] h-[1080px] w-[1920px]" style={{ transform: `scale(${scale})`, transformOrigin: "center" }}><Slide index={index}/></div></div>;
 }
 
 function Presentation() {
