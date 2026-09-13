@@ -105,8 +105,10 @@ function Visual({ index }: { index: number }) {
   if (index === 0) {
     return (
       <div className="relative flex h-full items-center justify-center">
-        <div className="absolute h-[460px] w-[460px] rounded-full border border-border" />
-        <div className="absolute h-[330px] w-[330px] rounded-full border border-border" />
+        <div className="absolute h-[500px] w-[500px] rounded-full border border-border" />
+        <div className="absolute h-[360px] w-[360px] rounded-full border border-border" />
+        <div className="absolute right-8 top-24 size-20 rounded-full bg-signal" />
+        <div className="absolute bottom-28 left-6 size-11 rounded-full border-2 border-foreground" />
         <div className="relative flex h-[190px] w-[190px] items-center justify-center rounded-full bg-primary text-primary-foreground">
           <span className="font-mono text-[44px] font-semibold">390ms</span>
         </div>
@@ -134,19 +136,23 @@ function Visual({ index }: { index: number }) {
 function Slide({ index }: { index: number }) {
   const slide = slides[index];
   if (!slide) return null;
+  const isDark = index === 1 || index === 3 || index === 5;
   return (
-    <article className="slide-content slide-enter flex flex-col px-[108px] py-[82px]" aria-label={`Slide ${index + 1}: ${slide.title}`}>
+    <article className={`slide-content slide-enter flex flex-col px-[108px] py-[82px] ${isDark ? "deck-dark" : ""}`} aria-label={`Slide ${index + 1}: ${slide.title}`}>
       <header className="flex items-center justify-between border-b border-border pb-7">
-        <span className="slide-kicker">{slide.tag}</span>
-        <span className="slide-chrome text-muted-foreground">VOICE / AI · 0{index + 1}</span>
+        <div className="flex items-center gap-4">
+          <span className="slide-kicker rounded-full bg-foreground px-6 py-3 text-primary-foreground">{slide.tag}</span>
+          <span className="slide-kicker rounded-full border border-signal bg-signal-soft px-6 py-3 text-signal-foreground">Real-time voice</span>
+        </div>
+        <span className="slide-chrome flex size-14 items-center justify-center rounded-full border border-border text-muted-foreground">0{index + 1}</span>
       </header>
       <div className="grid min-h-0 flex-1 grid-cols-[1.12fr_0.88fr] gap-[92px] pt-[68px]">
         <div className="flex min-h-0 flex-col">
-          <h1 className={index === 0 ? "slide-title-lg max-w-[1000px]" : "slide-title max-w-[1020px]"}>{slide.title}</h1>
+          <h1 className={index === 0 ? "slide-title-lg slide-cover-title max-w-[1000px]" : "slide-title max-w-[1020px]"}>{slide.title}</h1>
           <ul className="mt-[52px] grid gap-6">
             {slide.bullets.map((bullet, i) => (
               <li key={bullet} className="slide-body flex items-start gap-6 text-ink-soft">
-                <span className="slide-chrome mt-2 flex size-9 shrink-0 items-center justify-center rounded-full bg-signal-soft text-signal-foreground">{i + 1}</span>
+                <span className="slide-chrome mt-2 flex size-10 shrink-0 items-center justify-center rounded-full bg-signal text-signal-foreground">{i + 1}</span>
                 <span>{bullet}</span>
               </li>
             ))}
@@ -213,9 +219,9 @@ function Presentation() {
       </nav>
       <section className="min-h-0 flex-1 p-3 md:p-6"><div className="h-full overflow-hidden border border-border bg-stage shadow-2xl"><ScaledSlide index={current}/></div></section>
       <footer className="print-hide flex h-20 shrink-0 items-center justify-between px-4 md:px-6">
-        <Button variant="deck" size="deckIcon" aria-label="Previous slide" disabled={current === 0} onClick={() => go(current - 1)}><ArrowLeft /></Button>
+        <Button variant="deck" size="deckIcon" className="size-12 rounded-full" aria-label="Previous slide" disabled={current === 0} onClick={() => go(current - 1)}><ArrowLeft /></Button>
         <div className="flex items-center gap-4"><span className="font-mono text-xs text-muted-foreground">{String(current + 1).padStart(2,"0")}</span><div className="flex gap-1">{slides.map((_,i) => <Button variant="ghost" size="icon" key={i} aria-label={`Go to slide ${i+1}`} onClick={() => go(i)} className="h-7 w-auto px-1.5"><span className={`block h-1.5 rounded-full transition-all ${i === current ? "w-10 bg-primary" : "w-4 bg-border"}`} /></Button>)}</div><span className="font-mono text-xs text-muted-foreground">06</span></div>
-        <Button variant="deckPrimary" size="deckIcon" aria-label="Next slide" disabled={current === slides.length - 1} onClick={() => go(current + 1)}><ArrowRight /></Button>
+        <Button variant="deckPrimary" size="deckIcon" className="size-12 rounded-full bg-signal text-signal-foreground hover:bg-signal/90" aria-label="Next slide" disabled={current === slides.length - 1} onClick={() => go(current + 1)}><ArrowRight /></Button>
       </footer>
       {overview && <div className="fixed inset-0 z-50 overflow-y-auto bg-background/95 p-6 backdrop-blur-md"><div className="mx-auto max-w-7xl"><div className="mb-6 flex items-center justify-between"><h2 className="font-display text-2xl font-semibold">All slides</h2><Button variant="deck" size="icon" aria-label="Close overview" onClick={() => setOverview(false)}><X /></Button></div><div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">{slides.map((slide,i) => <Button variant="ghost" key={slide.title} onClick={() => {go(i);setOverview(false)}} className="group block h-auto overflow-hidden rounded-none border border-border bg-card p-0 text-left shadow-sm transition hover:-translate-y-1 hover:bg-card hover:shadow-xl"><div className="aspect-video bg-stage p-7"><div className="font-mono text-xs text-muted-foreground">0{i+1} · {slide.tag}</div><div className="mt-8 whitespace-normal font-display text-2xl font-semibold leading-tight">{slide.title}</div><div className="mt-8 h-1 w-16 bg-signal" /></div></Button>)}</div></div></div>}
     </main>

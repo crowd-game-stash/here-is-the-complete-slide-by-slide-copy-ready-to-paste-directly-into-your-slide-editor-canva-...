@@ -68,27 +68,31 @@
   --color-signal-foreground: var(--signal-foreground);
   --color-signal-soft: var(--signal-soft);
   --color-warm: var(--warm);
+  --color-deck-dark: var(--deck-dark);
+  --color-deck-dark-foreground: var(--deck-dark-foreground);
+  --color-deck-gray: var(--deck-gray);
+  --font-cover: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif;
 }
 
 :root {
   --radius: 0.5rem;
-  --background: oklch(0.955 0.006 95);
-  --foreground: oklch(0.16 0.012 255);
+  --background: oklch(0.96 0.003 80);
+  --foreground: oklch(0.15 0.004 80);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.129 0.042 264.695);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.19 0.012 255);
+  --primary: oklch(0.16 0.004 80);
   --primary-foreground: oklch(0.985 0.004 95);
-  --secondary: oklch(0.93 0.008 95);
+  --secondary: oklch(0.92 0.004 80);
   --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.94 0.008 95);
-  --muted-foreground: oklch(0.48 0.012 255);
-  --accent: oklch(0.89 0.17 143);
+  --muted: oklch(0.92 0.004 80);
+  --muted-foreground: oklch(0.48 0.006 80);
+  --accent: oklch(0.72 0.19 47);
   --accent-foreground: oklch(0.208 0.042 265.755);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.83 0.009 95);
+  --border: oklch(0.8 0.004 80);
   --input: oklch(0.929 0.013 255.508);
   --ring: oklch(0.704 0.04 256.788);
   --chart-1: oklch(0.646 0.222 41.116);
@@ -104,12 +108,15 @@
   --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.704 0.04 256.788);
-  --stage: oklch(0.985 0.004 95);
-  --ink-soft: oklch(0.34 0.012 255);
-  --signal: oklch(0.82 0.22 139);
-  --signal-foreground: oklch(0.16 0.04 139);
-  --signal-soft: oklch(0.94 0.08 139);
-  --warm: oklch(0.74 0.17 55);
+  --stage: oklch(0.99 0.002 80);
+  --ink-soft: oklch(0.32 0.006 80);
+  --signal: oklch(0.72 0.19 47);
+  --signal-foreground: oklch(0.18 0.015 47);
+  --signal-soft: oklch(0.94 0.04 55);
+  --warm: oklch(0.72 0.19 47);
+  --deck-dark: oklch(0.16 0.004 80);
+  --deck-dark-foreground: oklch(0.97 0.003 80);
+  --deck-gray: oklch(0.76 0.005 80);
 }
 
 .dark {
@@ -179,6 +186,7 @@
 }
 
 .slide-title-lg { font-family: var(--font-display); font-size: var(--slide-title-lg); line-height: 0.95; font-weight: 700; letter-spacing: 0; }
+.slide-cover-title { font-family: var(--font-cover); }
 .slide-title { font-family: var(--font-display); font-size: var(--slide-title); line-height: 1.02; font-weight: 650; letter-spacing: 0; }
 .slide-subtitle { font-family: var(--font-display); font-size: var(--slide-subtitle); line-height: 1.12; letter-spacing: 0; }
 .slide-body-lg { font-size: var(--slide-body-lg); line-height: 1.28; }
@@ -189,6 +197,21 @@
 
 @keyframes slide-enter { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
 .slide-enter { animation: slide-enter 420ms cubic-bezier(.22,.8,.25,1) both; }
+
+.deck-dark {
+  --foreground: var(--deck-dark-foreground);
+  --ink-soft: oklch(0.78 0.004 80);
+  --muted-foreground: oklch(0.7 0.005 80);
+  --border: oklch(1 0 0 / 18%);
+  --card: oklch(0.22 0.005 80);
+  --secondary: oklch(0.25 0.005 80);
+  --primary: var(--deck-dark-foreground);
+  --primary-foreground: var(--deck-dark);
+  --signal-soft: oklch(0.3 0.08 47);
+  --signal-foreground: oklch(0.88 0.12 55);
+  background: var(--deck-dark);
+  color: var(--deck-dark-foreground);
+}
 
 @media (prefers-reduced-motion: reduce) {
   .slide-enter { animation: none; }
