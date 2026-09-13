@@ -19,6 +19,9 @@
  */
 
 @theme inline {
+  --font-sans: "Inter", sans-serif;
+  --font-display: "Geist", sans-serif;
+  --font-mono: "Geist Mono", monospace;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -59,27 +62,33 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --color-stage: var(--stage);
+  --color-ink-soft: var(--ink-soft);
+  --color-signal: var(--signal);
+  --color-signal-foreground: var(--signal-foreground);
+  --color-signal-soft: var(--signal-soft);
+  --color-warm: var(--warm);
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
+  --radius: 0.5rem;
+  --background: oklch(0.955 0.006 95);
+  --foreground: oklch(0.16 0.012 255);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.129 0.042 264.695);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
+  --primary: oklch(0.19 0.012 255);
+  --primary-foreground: oklch(0.985 0.004 95);
+  --secondary: oklch(0.93 0.008 95);
   --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
+  --muted: oklch(0.94 0.008 95);
+  --muted-foreground: oklch(0.48 0.012 255);
+  --accent: oklch(0.89 0.17 143);
   --accent-foreground: oklch(0.208 0.042 265.755);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
+  --border: oklch(0.83 0.009 95);
   --input: oklch(0.929 0.013 255.508);
   --ring: oklch(0.704 0.04 256.788);
   --chart-1: oklch(0.646 0.222 41.116);
@@ -95,6 +104,12 @@
   --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.704 0.04 256.788);
+  --stage: oklch(0.985 0.004 95);
+  --ink-soft: oklch(0.34 0.012 255);
+  --signal: oklch(0.82 0.22 139);
+  --signal-foreground: oklch(0.16 0.04 139);
+  --signal-soft: oklch(0.94 0.08 139);
+  --warm: oklch(0.74 0.17 55);
 }
 
 .dark {
@@ -140,5 +155,49 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: var(--font-sans);
+    margin: 0;
   }
+}
+
+.slide-content {
+  width: 1920px;
+  height: 1080px;
+  overflow: hidden;
+  position: relative;
+  background: var(--stage);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  --slide-title-lg: 112px;
+  --slide-title: 86px;
+  --slide-subtitle: 48px;
+  --slide-body-lg: 38px;
+  --slide-body: 30px;
+  --slide-caption: 23px;
+  --slide-kicker: 21px;
+  --slide-chrome: 19px;
+}
+
+.slide-title-lg { font-family: var(--font-display); font-size: var(--slide-title-lg); line-height: 0.95; font-weight: 700; letter-spacing: 0; }
+.slide-title { font-family: var(--font-display); font-size: var(--slide-title); line-height: 1.02; font-weight: 650; letter-spacing: 0; }
+.slide-subtitle { font-family: var(--font-display); font-size: var(--slide-subtitle); line-height: 1.12; letter-spacing: 0; }
+.slide-body-lg { font-size: var(--slide-body-lg); line-height: 1.28; }
+.slide-body { font-size: var(--slide-body); line-height: 1.32; }
+.slide-caption { font-size: var(--slide-caption); line-height: 1.28; }
+.slide-kicker { font-family: var(--font-mono); font-size: var(--slide-kicker); line-height: 1.1; letter-spacing: 0.08em; text-transform: uppercase; }
+.slide-chrome { font-family: var(--font-mono); font-size: var(--slide-chrome); line-height: 1.15; }
+
+@keyframes slide-enter { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+.slide-enter { animation: slide-enter 420ms cubic-bezier(.22,.8,.25,1) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .slide-enter { animation: none; }
+}
+
+@media print {
+  @page { size: 1920px 1080px landscape; margin: 0; }
+  body { background: var(--stage); }
+  .print-hide { display: none !important; }
+  .print-deck { display: block !important; }
+  .print-slide { width: 1920px; height: 1080px; break-after: page; page-break-after: always; }
 }
